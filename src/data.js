@@ -1,4 +1,4 @@
-const movies = [
+ const movies = [
   {
     title: "Doctor Strange",
     time: 115,
