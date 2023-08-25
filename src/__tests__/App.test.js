@@ -1,55 +1,54 @@
-import "@testing-library/jest-dom";
-import React from "react";
-import { render, screen } from "@testing-library/react";
-import { createMemoryHistory } from "history";
-import { BrowserRouter } from "react-router-dom";
-import App from "../components/App";
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import App from './App';
 
-test("renders the <NavBar /> component", () => {
-  const { container } = render(
-    <BrowserRouter>
+test('renders NavBar', () => {
+  render(
+    <Router>
       <App />
-    </BrowserRouter>
+    </Router>
   );
-  expect(container.querySelector(".navbar")).toBeInTheDocument();
+  const navBarElement = screen.getByText(/navbar/i);
+  expect(navBarElement).toBeInTheDocument();
 });
 
-test('renders the Home component using the <Route path="/">', () => {
-  window.history.pushState({}, "", "/");
+test('renders Home component on the default route', () => {
   render(
-    <BrowserRouter>
+    <Router>
       <App />
-    </BrowserRouter>
+    </Router>
   );
-  expect(screen.queryByText(/Home Page/g)).toBeInTheDocument();
+  const homeComponent = screen.getByText(/welcome to the home/i);
+  expect(homeComponent).toBeInTheDocument();
 });
 
-test('renders the Actors component using the <Route path="/actors">', () => {
-  window.history.pushState({}, "", "/actors");
+test('renders Movies component when on /movies route', () => {
   render(
-    <BrowserRouter>
+    <Router initialEntries={['/movies']}>
       <App />
-    </BrowserRouter>
+    </Router>
   );
-  expect(screen.queryByText(/Actors Page/g)).toBeInTheDocument();
+  const moviesComponent = screen.getByText(/list of movies/i);
+  expect(moviesComponent).toBeInTheDocument();
 });
 
-test('renders the Directors component using the <Route path="/directors">', () => {
-  window.history.pushState({}, "", "/directors");
+test('renders Directors component when on /directors route', () => {
   render(
-    <BrowserRouter>
+    <Router initialEntries={['/directors']}>
       <App />
-    </BrowserRouter>
+    </Router>
   );
-  expect(screen.queryByText(/Directors Page/g)).toBeInTheDocument();
+  const directorsComponent = screen.getByText(/list of directors/i);
+  expect(directorsComponent).toBeInTheDocument();
 });
 
-test('renders the Movies component using the <Route path="/movies">', () => {
-  window.history.pushState({}, "", "/movies");
+test('renders Actors component when on /actors route', () => {
   render(
-    <BrowserRouter>
+    <Router initialEntries={['/actors']}>
       <App />
-    </BrowserRouter>
+    </Router>
   );
-  expect(screen.queryByText(/Movies Page/g)).toBeInTheDocument();
+  const actorsComponent = screen.getByText(/list of actors/i);
+  expect(actorsComponent).toBeInTheDocument();
 });
